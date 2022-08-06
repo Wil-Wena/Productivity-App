@@ -30,26 +30,32 @@ class TimerHomePage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         defaultPadding,
-                        const Expanded(
+                        Expanded(
                             child: ProductivityButton(
                                 color: Colors.blueAccent,
                                 text: "Work",
                                 size: 23.5,
-                                onPressed: emptyMethod)),
+                                onPressed: () {
+                                  timer.startWork();
+                                })),
                         defaultPadding,
-                        const Expanded(
+                        Expanded(
                             child: ProductivityButton(
                                 color: Colors.deepPurple,
                                 text: "Short Break",
                                 size: 23.5,
-                                onPressed: emptyMethod)),
+                                onPressed: () {
+                                  timer.startBreak(true);
+                                })),
                         defaultPadding,
-                        const Expanded(
+                        Expanded(
                             child: ProductivityButton(
                                 color: Colors.blueGrey,
                                 text: "Long Break",
                                 size: 23.5,
-                                onPressed: emptyMethod)),
+                                onPressed: () {
+                                  timer.startBreak(false);
+                                })),
                       ],
                     ),
                   ),
@@ -84,21 +90,25 @@ class TimerHomePage extends StatelessWidget {
                     child: Row(
                       children: [
                         defaultPadding,
-                        const Expanded(
+                        Expanded(
                           child: ProductivityButton(
                             color: Colors.deepPurple,
                             text: 'Stop',
                             size: 40.0,
-                            onPressed: emptyMethod,
+                            onPressed: () {
+                              timer.stopTimer();
+                            },
                           ),
                         ),
                         defaultPadding,
-                        const Expanded(
+                        Expanded(
                           child: ProductivityButton(
                             color: Colors.blueAccent,
                             text: 'Restart',
                             size: 40.0,
-                            onPressed: emptyMethod,
+                            onPressed: () {
+                              timer.startTimer();
+                            },
                           ),
                         ),
                       ],

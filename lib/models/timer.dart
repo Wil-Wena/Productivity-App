@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:productivity_timer/models/timemodel.dart';
 
 class CountDownTimer {
@@ -8,6 +9,8 @@ class CountDownTimer {
   late Duration _time;
   late Duration _fullTime;
   int work = 30;
+  int shortBreak = 5;
+  int longBreak = 20;
 
   String returnTime(Duration t) {
     String minutes =
@@ -38,6 +41,22 @@ class CountDownTimer {
   void startWork() {
     _radius = 1;
     _time = Duration(minutes: work, seconds: 0);
+    _fullTime = _time;
+  }
+
+  void stopTimer() {
+    this._isActive = false;
+  }
+
+  void startTimer() {
+    if (_time.inSeconds > 0) {
+      this._isActive = true;
+    }
+  }
+
+  void startBreak(bool isShort) {
+    _radius = 1;
+    _time = Duration(minutes: (isShort) ? shortBreak : longBreak, seconds: 0);
     _fullTime = _time;
   }
 }
