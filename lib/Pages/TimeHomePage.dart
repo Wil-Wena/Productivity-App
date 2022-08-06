@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:productivity_timer/main.dart';
+import 'package:productivity_timer/models/timemodel.dart';
 import 'package:productivity_timer/widgets/ProductivityButton.dart';
+import 'package:productivity_timer/models/timer.dart';
 
 class TimerHomePage extends StatelessWidget {
   final Padding defaultPadding = const Padding(padding: EdgeInsets.all(5.0));
-
-  const TimerHomePage({Key? key}) : super(key: key);
-
+  final CountDownTimer timer = CountDownTimer();
+  TimerHomePage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    timer.startWork(); //Called to main screen when it loads.
+
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
@@ -53,17 +56,27 @@ class TimerHomePage extends StatelessWidget {
                   const Spacer(),
                   Padding(
                     padding: const EdgeInsets.all(15.0),
-                    child: Expanded(
-                        child: CircularPercentIndicator(
-                      radius: availableWidth / 3,
-                      lineWidth: 10.0,
-                      percent: 1,
-                      center: Text(
-                        "30.00",
-                        style: Theme.of(context).textTheme.headline4,
-                      ),
-                      progressColor: Colors.deepPurpleAccent,
-                    )),
+                    child: StreamBuilder(
+                        initialData: '00:00',
+                        stream: timer.stream(),
+                        builder:
+                            (BuildContext context, AsyncSnapshot snapshot) {
+                          TimerModel timer = (snapshot.data == '00:00')
+                              ? TimerModel('00:00', 1)
+                              : snapshot.data;
+                          return Expanded(
+                              child: CircularPercentIndicator(
+                            radius: availableWidth / 3,
+                            lineWidth: 25.0,
+                            animation: true,
+                            percent: 1,
+                            center: Text(
+                              timer.time,
+                              style: Theme.of(context).textTheme.headline4,
+                            ),
+                            progressColor: Colors.deepPurpleAccent,
+                          ));
+                        }),
                   ),
                   const Spacer(),
                   Padding(
@@ -73,18 +86,20 @@ class TimerHomePage extends StatelessWidget {
                         defaultPadding,
                         const Expanded(
                           child: ProductivityButton(
-                              color: Colors.deepPurple,
-                              text: 'Stop',
-                              size: 40.0,
-                              onPressed: emptyMethod),
+                            color: Colors.deepPurple,
+                            text: 'Stop',
+                            size: 40.0,
+                            onPressed: emptyMethod,
+                          ),
                         ),
                         defaultPadding,
                         const Expanded(
                           child: ProductivityButton(
-                              color: Colors.blueAccent,
-                              text: 'Restart',
-                              size: 40.0,
-                              onPressed: emptyMethod),
+                            color: Colors.blueAccent,
+                            text: 'Restart',
+                            size: 40.0,
+                            onPressed: emptyMethod,
+                          ),
                         ),
                       ],
                     ),
