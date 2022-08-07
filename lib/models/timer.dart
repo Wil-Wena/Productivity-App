@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:productivity_timer/Pages/settingsPage.dart';
 import 'package:productivity_timer/models/timemodel.dart';
 
 class CountDownTimer {
@@ -58,5 +59,10 @@ class CountDownTimer {
     _radius = 1;
     _time = Duration(minutes: (isShort) ? shortBreak : longBreak, seconds: 0);
     _fullTime = _time;
+  }
+
+  void gotoSettings(BuildContext context) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const SettingsPage()));
   }
 }

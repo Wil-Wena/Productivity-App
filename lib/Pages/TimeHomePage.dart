@@ -4,6 +4,7 @@ import 'package:productivity_timer/main.dart';
 import 'package:productivity_timer/models/timemodel.dart';
 import 'package:productivity_timer/widgets/ProductivityButton.dart';
 import 'package:productivity_timer/models/timer.dart';
+import 'settingsPage.dart';
 
 class TimerHomePage extends StatelessWidget {
   final Padding defaultPadding = const Padding(padding: EdgeInsets.all(5.0));
@@ -11,17 +12,36 @@ class TimerHomePage extends StatelessWidget {
   TimerHomePage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final List<PopupMenuItem<String>> menuItems = <PopupMenuItem<String>>[];
+    menuItems.add(const PopupMenuItem(
+      value: 'Settings',
+      child: Text('Settings'),
+    ));
     timer.startWork(); //Called to main screen when it loads.
 
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
             title: const Text("Task Scheduler"),
+            actions: [
+              PopupMenuButton(
+                itemBuilder: (BuildContext context) {
+                  return menuItems.toList();
+                },
+                onSelected: (onSelect) {
+                  if (onSelect == 'Settings') {
+                    timer.gotoSettings(context);
+                  }
+                },
+              )
+            ],
           ),
           body: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
               final double availableWidth = constraints.maxWidth;
               return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(5.0),
@@ -59,7 +79,9 @@ class TimerHomePage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const Spacer(),
+                  const Spacer(
+                    flex: 2,
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: StreamBuilder(
@@ -84,7 +106,9 @@ class TimerHomePage extends StatelessWidget {
                           ));
                         }),
                   ),
-                  const Spacer(),
+                  const Spacer(
+                    flex: 2,
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
