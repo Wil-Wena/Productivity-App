@@ -1,7 +1,10 @@
+// ignore_for_file: prefer_if_null_operators
+
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:productivity_timer/Pages/settingsPage.dart';
 import 'package:productivity_timer/models/timemodel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CountDownTimer {
   double _radius = 1;
@@ -28,7 +31,7 @@ class CountDownTimer {
       String Mtime;
       // ignore: unnecessary_this
       if (this._isActive) {
-        _time = _time - Duration(seconds: 1);
+        _time = _time - const Duration(seconds: 1);
         _radius = _time.inSeconds / -_fullTime.inSeconds;
         if (_time.inSeconds <= 0) {
           _isActive = false;
@@ -39,19 +42,29 @@ class CountDownTimer {
     });
   }
 
-  void startWork() {
+  Future readSettings() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    work = (prefs.getInt('workTime') == null ? 30 : prefs.getInt('workTime'))!;
+    shortBreak =
+        (prefs.getInt('shortBreak') == null ? 10 : prefs.getInt('shortBreak'))!;
+    longBreak =
+        (prefs.getInt('longBreak') == null ? 20 : prefs.getInt('longBreak'))!;
+  }
+
+  void startWork() async {
+    await readSettings();
     _radius = 1;
     _time = Duration(minutes: work, seconds: 0);
     _fullTime = _time;
   }
 
   void stopTimer() {
-    this._isActive = false;
+    _isActive = false;
   }
 
   void startTimer() {
     if (_time.inSeconds > 0) {
-      this._isActive = true;
+      _isActive = true;
     }
   }
 

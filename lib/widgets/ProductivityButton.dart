@@ -17,13 +17,13 @@ class ProductivityButton extends StatelessWidget {
   Widget build(BuildContext context) {
     // ignore: deprecated_member_use
     return FlatButton(
-      onPressed: this.onPressed,
+      onPressed: onPressed,
+      color: color,
+      minWidth: size,
       child: Text(
-        this.text,
-        style: TextStyle(color: Colors.white),
+        text,
+        style: const TextStyle(color: Colors.white),
       ),
-      color: this.color,
-      minWidth: this.size,
     );
   }
 }

@@ -1,23 +1,35 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
+typedef CallbackSetting = void Function(String, int);
 
 class SettingButton extends StatelessWidget {
-  SettingButton({required this.color, required this.text, required this.value});
-
   final Color color;
   final String text;
   final int value;
+  final double size;
+  final String setting;
+  final CallbackSetting callback;
+
+  SettingButton(
+      {required this.color,
+      required this.text,
+      required this.size,
+      required this.value,
+      required this.setting,
+      required this.callback});
+
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
+      onPressed: () {
+        callback(setting, value);
+      },
+      color: color,
+      minWidth: size,
       child: Text(
-        this.text,
-        style: TextStyle(color: Colors.white),
+        text,
+        style: const TextStyle(color: Colors.white),
       ),
-      onPressed: () {},
-      color: this.color,
     );
   }
 }

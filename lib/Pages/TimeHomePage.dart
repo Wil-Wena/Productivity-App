@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:productivity_timer/main.dart';
 import 'package:productivity_timer/models/timemodel.dart';
 import 'package:productivity_timer/widgets/ProductivityButton.dart';
 import 'package:productivity_timer/models/timer.dart';
